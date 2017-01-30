@@ -1,0 +1,5 @@
+Revision history for {{$dist->name}}
+
+{{$NEXT}}
+        - initial release
+        - common functions for Elasticsearch support

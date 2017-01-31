@@ -1,5 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.001     2017-01-31
         - initial release
         - common functions for Elasticsearch support

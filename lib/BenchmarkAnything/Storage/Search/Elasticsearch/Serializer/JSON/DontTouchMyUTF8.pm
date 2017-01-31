@@ -5,6 +5,12 @@ package BenchmarkAnything::Storage::Search::Elasticsearch::Serializer::JSON::Don
 #   https://github.com/elastic/elasticsearch-perl/issues/57
 # (Kudos to Celogeek - you are not alone!)
 
+=head2 JSON
+
+The JSON instance which does not contain special utf-8 fiddling.
+
+=cut
+
 use Moo;
 use JSON::MaybeXS 1.002002 ();
 

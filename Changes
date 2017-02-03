@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - support for 'select' in BenchmarkAnything query
 
 0.001     2017-01-31
         - initial release

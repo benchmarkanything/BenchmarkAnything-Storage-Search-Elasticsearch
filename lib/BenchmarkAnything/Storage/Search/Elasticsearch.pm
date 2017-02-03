@@ -67,8 +67,8 @@ sub get_elasticsearch_query
     my $hr_es_query;
     my $default_max_size = 10_000;
 
-    my $ar_ba_select   = $hr_ba_query->{select};   # !, aggregators!
-    my $ar_ba_where    = $hr_ba_query->{where};    # done; wildcards to entries with 'foo:', maybe fixed with analyzer settings
+    my $ar_ba_select   = $hr_ba_query->{select};   # select:done; aggregators!
+    my $ar_ba_where    = $hr_ba_query->{where};    # done
     my $i_ba_limit     = $hr_ba_query->{limit};    # done
     my $i_ba_offset    = $hr_ba_query->{offset};   # done
     my $ar_ba_order_by = $hr_ba_query->{order_by}; # done
@@ -77,6 +77,17 @@ sub get_elasticsearch_query
     my @must_matches;
     my @must_not_matches;
     my @should_matches;
+    my %source_fields = (
+        NAME      => 1,
+        UNIT      => 1,
+        VALUE     => 1,
+        VALUE_ID  => 1,
+        CREATED   => 1,
+    );
+
+    # select fields
+    $source_fields{$_} = 1 for @$ar_ba_select;
+    my %source = @$ar_ba_select ? ( _source => [ keys %source_fields ] ) : ();
 
     # The 'sort' entry should get an always-the-same canonical
     # structure because get_mapping/properties below relies on that.
@@ -182,6 +193,7 @@ sub get_elasticsearch_query
                      %from,
                      %size,
                      %sort,
+                     %source,
                    };
 
     return $hr_es_query;

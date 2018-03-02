@@ -140,7 +140,8 @@ sub get_elasticsearch_query
      );
     my %wildcard_not_match_operator =
      (
-      'not like' => 1,
+      'not like' => 1, # deprecated
+      'not_like' => 1,
      );
     foreach my $w (@{ $ar_ba_where || [] })
     {

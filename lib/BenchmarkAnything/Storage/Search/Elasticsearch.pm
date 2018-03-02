@@ -134,6 +134,10 @@ sub get_elasticsearch_query
      (
       '!=' => 1,
      );
+    my %empty_match_operator =
+     (
+      'is_empty' => 1,
+     );
     my %wildcard_match_operator =
      (
       'like' => 1,
@@ -171,6 +175,28 @@ sub get_elasticsearch_query
             my $es_v = $v[0];
             $es_v =~ s/%/*/g;
             push @must_matches,       { wildcard => { $k => $es_v } };
+        }
+        elsif ($es_op = $empty_match_operator{$op})
+        {
+            if (@v and $v[0] == 0) {
+                # field is NOT EMPTY: [ "is_empty", "some_field_name", 0 ]
+                push @must_matches, { wildcard => { $k => '*' } };
+
+            } elsif (@v and $v[0] == 2) {
+                # field is EMPTY but exists (ie. not undefined): [ "is_empty", "some_field_name", 2 ]
+                push @must_not_matches, { wildcard => { $k => '*' } };
+                push @must_matches,     { exists   => { field => $k } };
+
+            } elsif (not @v or $v[0] == 1) {
+                # field is EMPTY or UNDEFINED/NULL: [ "is_empty", "some_field_name", 1 ] or [ "is_empty", "some_field_name" ]
+                push @must_not_matches, { wildcard => { $k => '*' } };
+
+            } else {
+                # we might invent other semantics so we better warn about
+                # what could once become meaningful.
+                warn "unclear 'is_empty' condition (".$v[0]."). Interpreting as 'is_empty' condition (1).";
+                push @must_not_matches, { wildcard => { $k => '*' } };
+            }
         }
         elsif ($es_op = $wildcard_not_match_operator{$op})
         {

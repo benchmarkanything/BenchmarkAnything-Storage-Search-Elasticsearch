@@ -116,7 +116,7 @@ sub get_elasticsearch_query
                           @e
                       } @{ $ar_ba_order_by || [] }
                   ]);
-    my %from = !$i_ba_offset ? () : ( from => $i_ba_offset+1 );
+    my %from = !$i_ba_offset ? () : ( from => $i_ba_offset );
     my %size = ( size => ($i_ba_limit || $default_max_size) );
 
     my %range_operator =

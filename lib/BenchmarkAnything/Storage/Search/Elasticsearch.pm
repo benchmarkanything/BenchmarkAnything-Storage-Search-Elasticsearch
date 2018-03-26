@@ -110,7 +110,7 @@ sub get_elasticsearch_query
                           else
                           {
                               require Data::Dumper;
-                              print STDERR "_get_elasticsearch_query: unknown order_by clause: ".Data::Dumper::Dumper($_)."\n";
+                              warn "_get_elasticsearch_query: unknown order_by clause: ".Data::Dumper::Dumper($_)."\n";
                               return;
                           }
                           @e
@@ -206,7 +206,7 @@ sub get_elasticsearch_query
         }
         else
         {
-            print STDERR "_get_elasticsearch_query: Unsupported operator: $op\n";
+            warn "_get_elasticsearch_query: Unsupported operator: $op\n";
             return;
         }
     }

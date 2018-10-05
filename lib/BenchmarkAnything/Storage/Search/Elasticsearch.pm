@@ -43,10 +43,12 @@ sub get_elasticsearch_client {
     die "benchmarkanything-storage-search-elasticsearch: missing config 'elasticsearch.type'"  unless $s_type;
 
     # Elasticsearch
-    my $or_es = Search::Elasticsearch->new
-     (client => ($cfg->{client} || "5_0::Direct"),
+    my %es_cfg =
+     (client => ($cfg->{client}               ||  "5_0::Direct"),
+      nodes  => ($cfg->{elasticsearch}{nodes} || ["localhost:9200"]),
       $opt->{ownjson} ? (serializer => "+BenchmarkAnything::Storage::Search::Elasticsearch::Serializer::JSON::DontTouchMyUTF8") : (),
      );
+    my $or_es = Search::Elasticsearch->new(%es_cfg);
 
     return wantarray ? ($or_es, $s_index, $s_type) : $or_es;
 }

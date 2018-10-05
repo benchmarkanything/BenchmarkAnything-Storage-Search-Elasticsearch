@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.004     2018-10-05
         - fix missing passthrough of node configuration
 
 0.003     2018-10-05

@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.003     2018-10-05
         - bugfixes
         - introduce new query operator 'is_empty'
         - rename query operator 'is like' -> 'is_like'

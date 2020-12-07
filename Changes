@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - fix config key pointing to client
 
 0.004     2018-10-05
         - fix missing passthrough of node configuration
